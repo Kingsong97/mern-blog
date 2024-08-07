@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
+import CommentSection from "./CommentSection";
 export default function PostPage() {
     const { postSlug } = useParams();
     const [loading, setLoading] = useState(true);
@@ -48,6 +49,8 @@ export default function PostPage() {
                 className="prose prose-lg mx-auto text-white-800 leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: post && post.content }}
             ></div>
+            <div className="mt-5 comment">댓글쓰기</div>
+            <CommentSection />
         </main>
     )
 }

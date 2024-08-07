@@ -8,8 +8,8 @@ mongodb(https://www.mongodb.com/)
 insomnia(https://insomnia.rest/)
 
 ```bash
-npm create vite@latest
 cd client
+npm create vite@latest
 npm install
 npm run dev
 npm i react-router-dom
