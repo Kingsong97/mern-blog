@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import { Link } from "react-router-dom";
 import Comment from "../components/Comment";
 
-export default function CommentSection() {
+export default function CommentSection({ postId }) {
     const { currentUser } = useSelector((state) => state.user);
     const [comment, setComment] = useState("");
     const [commentError, setCommentEroor] = useState("");
@@ -11,7 +11,33 @@ export default function CommentSection() {
     const [showModal, setShowModal] = useState(false);
     const [commentToDelete, setCommentToDelete] = useState(null);
 
-    const handleSubmit = async () => { };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (comment.length > 200) {
+            return;
+        }
+
+        try {
+            const res = await fetch("/api/comment/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    content: comment,
+                    postId,
+                    userId: currentUser._id,
+                }),
+            })
+            const data = await res.json();
+            if (res.ok) {
+                setComment("");
+                setCommentEroor(null);
+                setComments([data, ...comments]);
+            }
+        } catch (error) {
+            setCommentEroor(error.message);
+        }
+    };
     return (
         <div>
             {currentUser ? (
@@ -47,8 +73,12 @@ export default function CommentSection() {
             ) : (
                 <>
                     <div>
-                        <p>댓글(댓글 갯수)</p>
-                        <Comment />
+                        <p>댓글({comments.length})</p>
+                    </div>
+                    <div>
+                        {comments.map((comment) => (
+                            <Comment key={comment._id} comment={comment} />
+                        ))}
                     </div>
                 </>
             )}

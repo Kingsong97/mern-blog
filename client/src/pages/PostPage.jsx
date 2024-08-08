@@ -50,7 +50,7 @@ export default function PostPage() {
                 dangerouslySetInnerHTML={{ __html: post && post.content }}
             ></div>
             <div className="mt-5 comment">댓글쓰기</div>
-            <CommentSection />
+            {post && <CommentSection postId={post._id} />}
         </main>
     )
 }

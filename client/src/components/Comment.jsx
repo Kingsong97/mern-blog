@@ -1,7 +1,16 @@
 
 
-export default function Comment() {
+export default function Comment({ comment }) {
     return (
-        <div>Comment</div>
-    )
+        <div>
+            <div className="flex">
+                <div>
+                    <img src="" alt="" />
+                </div>
+                <div>
+                    {comment.content};
+                </div>
+            </div>
+        </div>
+    );
 }
